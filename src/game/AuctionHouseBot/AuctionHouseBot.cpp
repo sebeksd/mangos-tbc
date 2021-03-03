@@ -26,7 +26,7 @@
 
 // Format is YYYYMMDDRR where RR is the change in the conf file
 // for that day.
-#define AUCTIONHOUSEBOT_CONF_VERSION    2020010101
+#define AUCTIONHOUSEBOT_CONF_VERSION    2021030301
 
 INSTANTIATE_SINGLETON_1(AuctionHouseBot);
 
@@ -46,6 +46,16 @@ void AuctionHouseBot::Initialize()
         return;
     }
     sLog.outString("AHBot using configuration file %s", m_configFileName.c_str());
+
+	if (m_ahBotCfg.GetBoolDefault("AuctionHouseBot.DisableBot", false))
+	{
+		sLog.outString("AHBot: Disabled");
+		return;
+	}
+	else
+	{
+		sLog.outString("AHBot: Enabled");
+	}
 
     m_chanceSell = GetMinMaxConfig("AuctionHouseBot.Chance.Sell", 0, 100, 10);
     m_chanceBuy = GetMinMaxConfig("AuctionHouseBot.Chance.Buy", 0, 100, 10);
