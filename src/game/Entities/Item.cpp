@@ -285,6 +285,7 @@ void Item::UpdateDuration(Player* owner, uint32 diff)
 
     if (GetUInt32Value(ITEM_FIELD_DURATION) <= diff && !IsUsedInSpell())
     {
+		sLog.outError("UpdateDuration: DestroyItem %d %d %d", GetUInt32Value(ITEM_FIELD_DURATION), diff, (!IsUsedInSpell()));
         owner->DestroyItem(GetBagSlot(), GetSlot(), true);
         return;
     }
@@ -766,6 +767,7 @@ void Item::SetState(ItemUpdateState state, Player* forplayer)
 {
     if (uState == ITEM_NEW && state == ITEM_REMOVED)
     {
+		sLog.outError("SetState: pretend the item never existed");
         // pretend the item never existed
         if (forplayer || GetOwnerGuid())
             RemoveFromUpdateQueueOf(forplayer);
@@ -787,6 +789,8 @@ void Item::SetState(ItemUpdateState state, Player* forplayer)
         // the item must be removed from the queue manually
         uQueuePos = -1;
         uState = ITEM_UNCHANGED;
+		
+		sLog.outError("SetState: unset in queue");
     }
 }
 
